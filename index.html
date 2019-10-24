@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/semantic-ui-css@2.4.1/semantic.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+  
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- emoji.css is imported in index.js  -->
+  <link type="text/css" href="src/emojis/styles/emoji.css">
+  
+  <link type="text/css" href="src/styles/style.css">
+  
+  <title>DUF-IM</title>
+</head>
+<body>
+
+  <div class="ui sidebar right vertical inverted menu invisible" id="ui-sidebar">
+    <a class="item" href="./">
+      <i class="home icon"></i>
+      Home
+    </a>
+
+    <a class="item" id="profile">
+      <i class="user icon"></i>
+      Profile
+    </a>
+  </div>
+
+  <!--start-->
+  <div class="pusher page">
+    <!--screen start-->
+    <div class="ui fluid container">
+      <!--screen container start-->
+      <div class="screen-container">
+        <div class="mainHeader">
+          <h1 class="ui header" id="webAppHeader">YAM - WebApp</h1>
+        </div>
+
+        <!--chat container start-->
+        <div class="chat-container">
+          <div>
+            <button class="ui basic button violet" id="menuBtn">
+              <i class="sidebar icon"></i>
+              <strong>Settings</strong>
+            </button>
+            <script>
+              $('.ui.sidebar')
+                .sidebar('setting', 'transition', 'overlay')
+                .sidebar('attach events', '#menuBtn');
+            </script>
+
+            <div class="conversation-container">
+              <div class="ui two column centered grid">
+                <div class="ui four column centered row">
+                  <div class="public-private-buttons">
+                    <button onclick="EntryPoint.publicRoom()" id="publicBtn" class="ui positive button"><i
+                        class="lock open icon"></i> Public room</button>
+                    <button onclick="EntryPoint.privateRoom()" id="privateBtn" class="ui negative button"><i
+                        class="lock icon"></i>Private room</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chat Room Form -->
+              <div class="ui form" id="form-container">
+                <div class="ui stackable two column centered grid">
+                  <div class="ui four column centered row">
+                    <div class="ui labeled input column">
+                      <div class="ui label" id="user">User name</div>
+                      <input type="text" placeholder="Enter user name" id="username" name="username">
+                    </div>
+                    <div class="ui labeled input column">
+                      <div class="ui label" id="room">Room name</div>
+                      <input type="text" placeholder="Enter room name" id="roomName" name="roomName">
+                    </div>
+                  </div>
+                  <div id="password-field" class="ui four column centered row">
+                    <div class="ui labeled input column">
+                      <div class="column"></div>
+                    </div>
+                    <div class="ui labeled input column">
+                      <div id="pw-label" class="ui label" style="visibility: hidden">Password</div>
+                      <input type="password" placeholder="Password" id="password" name="password" style="visibility: hidden;">
+                    </div>
+                  </div>
+                  <div class="ui three column centered row">
+                    <div class="column ui buttons" id="room-buttons">
+                      <div class="ui stackable eight column grid">
+                        <div id="create-btn" class="ui submit olive button column">Create your unique Room</div>
+                        <div class="column or"></div>
+                        <div id="join-btn" class="ui submit teal button column">Join an existing Room</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Chat Room Messages -->
+              <div class="ui grid">
+                <div class="three wide column"></div>
+                <div id="chat" class="ten wide column"></div>
+                <div class="three wide column"></div>
+              </div>
+            </div>
+            <!-- end conversation container -->
+          </div>
+        </div>
+        <!--chat container end-->
+      </div>
+      <!--screen container end-->
+    </div>
+    <!--end-->
+
+    <div id="call-modal" class="ui large modal">
+      <div><button id="closeBtn"><i class="close icon"></i></button></div>
+      <div class="header">Video Call
+        <div class="video-control">
+          <button id="videoBtn" class="ui toggle button inactive" alt="Toggle Video"><i class="video icon"></i></button>
+          <button id="audioBtn" class="ui toggle button active" alt="Toggle Audio"><i
+              class="microphone icon"></i></button>
+        </div>
+      </div>
+      <div>
+        <div id="remoteVideos">
+          <div id="camera-container-wrapper">
+            <div class="ui grid">
+              <div class="four wide column call-video">Local Video</div>
+              <div class="twelve wide column call-video">Remote Videos</div>
+            </div>
+            <div id="remote-videos" class="ui four column grid">
+              <!-- Local Camera -->
+                <video id="local-video" class="column" autoplay playsinline></video>
+              <!-- Remote Cameras -->
+            </div>
+          </div>
+        </div>
+        <hr>
+        <!-- the chat is inserted here -->
+        <div id="chatContentModal"> </div>
+      </div>
+    </div>
+
+    <div id="profile-modal" class="ui large modal profile">
+      <div class="clsBtnModal"><button id="clsBtn"><i class="close icon"></i></button></div>
+      <div class="selectAvatar">
+
+        <header class="w3-container w3-teal">
+
+          <h2>Avatar Images</h2>
+        </header>
+
+        <div class="w3-container">
+          <img src="./src/images/image.png" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/abhinav.jpeg" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/christian.jpg" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/vasil.jpg" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/unknown.jpg" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/z.jpg" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/avatar_movie.jpg" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/clone_trooper.png" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/cool_lama.jpg" alt="Avatar" class="avatar zoom">
+          <img src="./src/images/unicorn.jpg" alt="Avatar" class="avatar zoom">
+          <div class="ui grid">
+            <div class="four column centered row">
+              <div class="column">
+                <a class="item" id="profile" onclick="EntryPoint.darkTheme()">
+                  <button class="ui inverted secondary button">
+                    <i class="paint brush icon"></i>
+                  Dark Theme
+                </button>
+                </a>
+              </div>
+              <div class="column">
+                <a class="item" id="profile" onclick="EntryPoint.lightTheme()">
+                    <button class="ui inverted button"> <i class="paint brush icon"></i>
+                  Light Theme
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="w3-container w3-teal">
+        </footer>
+      </div>
+    </div>
+
+    <!-- TEMPLATES -->
+    <!-- Chat Content Template -->
+    <script id="chat-content-template" type="text/x-handlebars-template">
+    {{#each messages}}
+    <div class="event">
+      <div class="label">
+        <span> <img src="{{ avatar }}"/> </span>
+      </div>
+      <div class="content" style="background-color: {{ color }}">
+        <div class="summary">
+          <a class="username" href="#"> {{ username }}</a> posted on
+          <div class="date">
+            {{ postedOn }}
+          </div>
+        </div>
+        <div class="extra-text">
+          {{ message }}
+        </div>
+      </div>
+    </div>
+    {{/each}}
+    </script>
+
+    <!-- Chat Template -->
+    <script id="chat-template" type="text/x-handlebars-template">
+        {{#if room}}
+        <div class="controlBtn">
+            <button id="callBtn" class="ui toggle button active" alt="Call User"><i class="call icon"></i> </button>
+            <button id="trashBtn" class="ui toggle button active" alt="Delete chat history"><i class="trash icon"></i></button>
+            <a href="./"><button id="leaveRoomBtn" class="ui button red" alt="Leave Room"><i class="sign in alternate icon"></i>Leave Room</button></a>
+        </div>
+        <h3 class="ui orange header">Room ID: <strong>{{ room }}</strong></h3> 
+        <hr>
+        {{/if}}
+        <div class="ui feed chat-content"> </div>
+        <hr>
+        <div id="chat-form" class="ui padded centered grid form conversation-compose {{ chatType }}">
+          <input data-emoji-input="unicode" data-emojiable="true" id="postMsg" class="sixteen wide column input-msg post-message" name="post-message" placeholder="Type a message" autocomplete="off" autofocus>
+          <button class="one wide column send post-btn">
+            <div class="circle ui submit button">
+                Send
+            </div>
+          </button>
+        </div>
+      </script>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simplewebrtc@3.0.1/out/simplewebrtc-with-adapter.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emoji-picker/1.1.5/js/emoji-picker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emoji-picker/1.1.5/js/jquery.emojiarea.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emoji-picker/1.1.5/js/util.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emoji-picker/1.1.5/js/config.js"></script>
+  </div>
+</body>
+
+</html>
