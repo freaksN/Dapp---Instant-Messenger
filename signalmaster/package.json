@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "dependencies": {
     "getconfig": "^4.3.0",
-    "node-uuid": "1.2.0",
+    "node-uuid": "1.4.8",
     "socket.io": "^1.7.4",
     "yetify": "0.0.1"
   },
